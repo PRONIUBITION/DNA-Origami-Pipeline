@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+conda-meta/
+
+# Data, labels, and model artifacts
+**/data/*
+!data/README.md
+datasets/
+yolo_datasets/
+segment_dataset/
+**/input/
+**/outputs/
+**/runs/
+**/predictions/
+**/pretrained/
+models/*
+!models/README.md
+*.pt
+*.pth
+*.onnx
+*.engine
+*.ckpt
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+*.swp
+_train_stdout.txt
+_train_stderr.txt
+
+# Secrets and local configuration
+.env
+.env.*
+**/config/config.json
+*.key
+*.pem
+.aider*
+
+# Third-party checkouts
+third_party/
+nist_env/
+nist_sts/
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Sensitive or oversized scientific exports
+*.xlsx

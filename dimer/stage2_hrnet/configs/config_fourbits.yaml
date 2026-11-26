@@ -1,0 +1,74 @@
+project:
+  name: "dna_fourbit_keypoints_overfit"
+  root_dir: "./"
+  seed: 42
+
+data:
+  raw_dir: "data/fourbits"
+  processed_dir: "data/fourbits"
+  anno_dir: "data/fourbits/annotations"
+  heatmap_dir: "data/fourbits/heatmaps"
+  input_size: [256, 256]
+  num_classes: 16
+  num_keypoints: 6
+  keypoint_names: ["dot_1", "dot_2", "dot_3", "dot_4", "dot_5", "dot_6"]
+  distance_threshold: 45
+  train_subdir: "train"
+  val_subdir: "test_set"
+  train_ratio: 1.0
+  val_ratio: 0.2
+
+model:
+  name: "HRNet"
+  hrnet_type: "HRNet-W32"
+  pretrained: "pretrained/hrnetv2_w32_imagenet_pretrained.pth"
+  num_heatmaps: 6
+
+heatmap:
+  sigma: 3
+  output_size: [128, 128]
+  bg_weight: 0.1
+
+training:
+  epochs: 50
+  batch_size: 4
+  num_workers: 2
+  use_amp: true
+  optimizer:
+    type: "Adam"
+    lr: 0.0001
+    weight_decay: 0.0001
+  scheduler:
+    type: "CosineAnnealingLR"
+    T_max: 50
+    eta_min: 0.00001
+  loss:
+    heatmap_weight: 1.0
+    coord_weight: 0.0
+    neg_weight: 0.0
+  early_stopping:
+    patience: 1000
+    min_delta: 0.001
+  val_interval: 1
+
+augmentation:
+  rotation: 0
+  scale: [1.0, 1.0]
+  flip_lr: 0.0
+  flip_ud: 0.0
+  brightness: 0.0
+  contrast: 0.0
+  gaussian_noise: 0.0
+  blur_prob: 0.0
+  blur_kernel: 3
+
+output:
+  weights_dir: "outputs/weights"
+  logs_dir: "outputs/logs"
+  viz_dir: "outputs/visualizations"
+  save_interval: 10
+
+inference:
+  heatmap_threshold: 0.05
+  nms_distance: 5
+  min_confidence: 0.3

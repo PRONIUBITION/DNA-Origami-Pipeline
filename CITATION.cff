@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "Please cite the associated manuscript and this repository when using the code."
+title: "DNA Origami Structural Decoding and Random-Number Pipeline"
+type: software
+authors:
+  - name: "DNA Origami Pipeline contributors"
+repository-code: "https://github.com/PRONIUBITION/DNA-Origami-Pipeline"
+license: MIT
+version: 0.1.0
+date-released: 2026-11-26

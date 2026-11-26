@@ -1,0 +1,91 @@
+
+project:
+  name: "dna_dot_classifier"
+  root_dir: "./"
+  seed: 42
+
+data:
+  raw_dir: "data/raw"
+  anno_dir: "data/annotations"
+  processed_dir: "data/processed"
+  heatmap_dir: "data/heatmaps"
+
+  input_size: [256, 256]  # [H, W]
+
+  num_classes: 4
+
+  num_keypoints: 4
+  keypoint_names: ["left_dot_1", "left_dot_2", "right_dot_1", "right_dot_2"]
+
+  distance_threshold: 45
+
+  train_subdir: "train"
+  val_subdir: "val_aug"
+
+  train_ratio: 0.8
+  val_ratio: 0.2
+
+model:
+  name: "HRNet"
+  hrnet_type: "HRNet-W32"
+
+  pretrained: "pretrained/hrnetv2_w32_imagenet_pretrained.pth"
+
+  num_heatmaps: 4
+
+heatmap:
+  sigma: 3
+  output_size: [64, 64]
+  bg_weight: 0.1
+
+training:
+  epochs: 100
+  batch_size: 4
+  num_workers: 2
+
+  use_amp: true
+
+  optimizer:
+    type: "Adam"
+    lr: 0.0001
+    weight_decay: 0.0001
+
+  scheduler:
+    type: "CosineAnnealingLR"
+    T_max: 25
+    eta_min: 0.00001
+
+  loss:
+    heatmap_weight: 1.0
+    coord_weight: 0.0
+    neg_weight: 0.0
+
+  early_stopping:
+    patience: 10
+    min_delta: 0.001
+
+  val_interval: 5
+
+augmentation:
+  rotation: 20
+  scale: [0.85, 1.15]
+  flip_lr: 0.5
+  flip_ud: 0.0
+
+  brightness: 0.25
+  contrast: 0.25
+
+  gaussian_noise: 0.02
+  blur_prob: 0.3
+  blur_kernel: 3
+
+output:
+  weights_dir: "outputs/weights"
+  logs_dir: "outputs/logs"
+  viz_dir: "outputs/visualizations"
+  save_interval: 5
+
+inference:
+  heatmap_threshold: 0.05
+  nms_distance: 5
+  min_confidence: 0.3

@@ -1,0 +1,75 @@
+augmentation:
+  blur_kernel: 3
+  blur_prob: 0.3
+  brightness: 0.25
+  contrast: 0.25
+  flip_lr: 0.5
+  flip_ud: 0.0
+  gaussian_noise: 0.02
+  rotation: 20
+  scale:
+  - 0.85
+  - 1.15
+data:
+  anno_dir: data/annotations
+  heatmap_dir: data/heatmaps
+  input_size:
+  - 256
+  - 256
+  keypoint_names:
+  - dot_1
+  - dot_2
+  - dot_3
+  num_classes: 1
+  num_keypoints: 3
+  processed_dir: data/processed
+  raw_dir: data/raw
+  train_ratio: 0.8
+  train_subdir: train_aug
+  val_ratio: 0.2
+  val_subdir: val_aug
+heatmap:
+  bg_weight: 0.1
+  output_size:
+  - 64
+  - 64
+  sigma: 3
+inference:
+  heatmap_threshold: 0.05
+  min_confidence: 0.3
+  nms_distance: 5
+model:
+  hrnet_type: SimpleHRNet
+  name: HRNet
+  num_heatmaps: 3
+  pretrained: pretrained/hrnetv2_w32_imagenet_pretrained.pth
+output:
+  logs_dir: runs
+  save_interval: 5
+  viz_dir: outputs/visualizations
+  weights_dir: runs
+project:
+  name: dna_single_dot_detector
+  root_dir: ./
+  seed: 42
+training:
+  batch_size: 4
+  early_stopping:
+    min_delta: 0.0
+    patience: 999
+  epochs: 500
+  loss:
+    coord_weight: 0.0
+    heatmap_weight: 1.0
+    neg_weight: 0.0
+  num_workers: 0
+  optimizer:
+    lr: 0.0001
+    type: Adam
+    weight_decay: 0.0001
+  scheduler:
+    T_max: 25
+    eta_min: 1.0e-05
+    type: CosineAnnealingLR
+  use_amp: true
+  val_interval: 5
